@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baca Surah</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .ayat {
+      background: #fff;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .arab {
+      font-size: 1.5rem;
+      text-align: right;
+      color: #333;
+    }
+
+    .translation {
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+      color: #555;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin: 1rem;
+      padding: 0.5rem 1rem;
+      background: #006644;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-btn">← Kembali</a>
+  <main id="surah-container"></main>
+
+  <script>
+    const surahContainer = document.getElementById("surah-container");
+    const surah = JSON.parse(localStorage.getItem("selectedSurah"));
+
+    if (!surah) {
+      surahContainer.innerHTML = "<p>Surah tidak ditemukan.</p>";
+    } else {
+      document.title = surah.name.transliteration.id + " - Al-Qur'an";
+
+      const header = document.createElement("h2");
+      header.textContent = surah.name.transliteration.id + " (" + surah.name.translation.id + ")";
+      surahContainer.appendChild(header);
+
+      surah.verses.forEach((ayah) => {
+        const div = document.createElement("div");
+        div.className = "ayat";
+        div.innerHTML = `
+          <div class="arab">${ayah.text.arab}</div>
+          <div class="translation">${ayah.translation.id}</div>
+        `;
+        surahContainer.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
